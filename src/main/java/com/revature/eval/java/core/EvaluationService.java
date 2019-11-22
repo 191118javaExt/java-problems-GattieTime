@@ -14,8 +14,17 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String reverse(String string) {
-		
-		return "";
+		char[] temp = new char[string.length()];
+		char[] rev = new char[string.length()];
+		int count = 0;
+		for (int i = 0; i < string.length(); i++)
+			temp[i] = string.charAt(i);
+		for (int i = (string.length() - 1); i > -1; i--) {
+			rev[count] = temp[i];
+			count++;
+		}
+		String reverse = new String(rev);
+		return reverse;
 	}
 
 	/**
@@ -27,8 +36,15 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String acronym(String phrase) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		StringBuilder sb = new StringBuilder();
+		String[] split = phrase.split(" |-");
+		for (int i = 0; i < split.length; i++) {
+			char first = split[i].charAt(0);
+			sb.append(first);
+		}
+		String acro = sb.toString();
+		acro = acro.toUpperCase();
+		return acro;
 	}
 
 	/**
@@ -81,18 +97,30 @@ public class EvaluationService {
 		}
 
 		public boolean isEquilateral() {
-			// TODO Write an implementation for this method declaration
-			return false;
+			if (sideOne == sideTwo && sideOne == sideThree && sideTwo == sideThree) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 
 		public boolean isIsosceles() {
-			// TODO Write an implementation for this method declaration
-			return false;
+
+			if (this.isEquilateral()) {
+				return true;
+			} else if (sideOne == sideTwo || sideOne == sideThree || sideTwo == sideThree) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 
 		public boolean isScalene() {
-			// TODO Write an implementation for this method declaration
-			return false;
+			if (sideOne != sideTwo && sideOne != sideThree && sideTwo != sideThree) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 
 	}
@@ -113,8 +141,55 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int getScrabbleScore(String string) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+		char[] onePt = {'A', 'E', 'I', 'O', 'U', 'L', 'N', 'R', 'S', 'T'};
+		char[] twoPt = {'D', 'G'};
+		char[] threePt = {'B', 'C', 'M', 'P'};
+		char[] fourPt = {'F', 'H', 'V', 'W', 'Y'};
+		char[] fivePt = {'K'};
+		char[] eightPt = {'J', 'X'};
+		char[] tenPt = {'Q', 'Z'};
+		
+		string = string.toUpperCase();
+		int score = 0;
+		for(int i=0; i<string.length(); i++) {
+			for(int x=0; x<onePt.length; x++) {
+				if(string.charAt(i) == onePt[x]) {
+					score++;
+				}
+			}
+			for(int x=0; x<twoPt.length; x++) {
+				if(string.charAt(i) == twoPt[x]) {
+					score+=2;
+				}
+			}	
+			for(int x=0; x<threePt.length; x++) {
+				if(string.charAt(i) == threePt[x]) {
+					score+=3;
+				}
+			}
+			for(int x=0; x<fourPt.length; x++) {
+				if(string.charAt(i) == fourPt[x]) {
+					score+=4;
+				}
+			}
+			for(int x=0; x<fivePt.length; x++) {
+				if(string.charAt(i) == fivePt[x]) {
+					score+=5;
+				}
+			}
+			for(int x=0; x<eightPt.length; x++) {
+				if(string.charAt(i) == eightPt[x]) {
+					score+=8;
+				}
+			}
+			for(int x=0; x<tenPt.length; x++) {
+				if(string.charAt(i) == tenPt[x]) {
+					score+=10;
+				}
+			}
+		}
+
+		return score;
 	}
 
 	/**
@@ -149,8 +224,22 @@ public class EvaluationService {
 	 * NANP-countries, only 1 is considered a valid country code.
 	 */
 	public String cleanPhoneNumber(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		StringBuilder sb = new StringBuilder();
+		for(int i =0; i<string.length(); i++) {
+			if (Character.isDigit(string.charAt(i))) {
+				sb.append(string.charAt(i));
+			}
+		}
+		if(sb.charAt(0) == '+') {
+			sb.deleteCharAt(0);
+		}
+		if(sb.charAt(0) == '1') {
+			sb.deleteCharAt(0);
+		}
+		String number = new String(sb);
+		//if(number.length() != 10) {}
+		
+		return number;
 	}
 
 	/**
@@ -243,7 +332,18 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String toPigLatin(String string) {
-		// TODO Write an implementation for this method declaration
+		String[] arr = string.split(" ");
+		for(int i=0; i<arr.length; i++) {
+			StringBuilder sb = new StringBuilder(arr[i]);
+			while(sb.charAt(0) != ('a'|'e'|'i'|'o'|'u')) {
+				char first = sb.charAt(0);
+				sb.deleteCharAt(0);
+				sb.append(first);
+			}
+			sb.append('a'+'y');
+			arr[i] = new String(sb);
+		}
+		
 		return null;
 	}
 
