@@ -1,6 +1,7 @@
 package com.revature.eval.java.core;
 
 import java.time.temporal.Temporal;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -141,50 +142,50 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int getScrabbleScore(String string) {
-		char[] onePt = {'A', 'E', 'I', 'O', 'U', 'L', 'N', 'R', 'S', 'T'};
-		char[] twoPt = {'D', 'G'};
-		char[] threePt = {'B', 'C', 'M', 'P'};
-		char[] fourPt = {'F', 'H', 'V', 'W', 'Y'};
-		char[] fivePt = {'K'};
-		char[] eightPt = {'J', 'X'};
-		char[] tenPt = {'Q', 'Z'};
-		
+		char[] onePt = { 'A', 'E', 'I', 'O', 'U', 'L', 'N', 'R', 'S', 'T' };
+		char[] twoPt = { 'D', 'G' };
+		char[] threePt = { 'B', 'C', 'M', 'P' };
+		char[] fourPt = { 'F', 'H', 'V', 'W', 'Y' };
+		char[] fivePt = { 'K' };
+		char[] eightPt = { 'J', 'X' };
+		char[] tenPt = { 'Q', 'Z' };
+
 		string = string.toUpperCase();
 		int score = 0;
-		for(int i=0; i<string.length(); i++) {
-			for(int x=0; x<onePt.length; x++) {
-				if(string.charAt(i) == onePt[x]) {
+		for (int i = 0; i < string.length(); i++) {
+			for (int x = 0; x < onePt.length; x++) {
+				if (string.charAt(i) == onePt[x]) {
 					score++;
 				}
 			}
-			for(int x=0; x<twoPt.length; x++) {
-				if(string.charAt(i) == twoPt[x]) {
-					score+=2;
-				}
-			}	
-			for(int x=0; x<threePt.length; x++) {
-				if(string.charAt(i) == threePt[x]) {
-					score+=3;
+			for (int x = 0; x < twoPt.length; x++) {
+				if (string.charAt(i) == twoPt[x]) {
+					score += 2;
 				}
 			}
-			for(int x=0; x<fourPt.length; x++) {
-				if(string.charAt(i) == fourPt[x]) {
-					score+=4;
+			for (int x = 0; x < threePt.length; x++) {
+				if (string.charAt(i) == threePt[x]) {
+					score += 3;
 				}
 			}
-			for(int x=0; x<fivePt.length; x++) {
-				if(string.charAt(i) == fivePt[x]) {
-					score+=5;
+			for (int x = 0; x < fourPt.length; x++) {
+				if (string.charAt(i) == fourPt[x]) {
+					score += 4;
 				}
 			}
-			for(int x=0; x<eightPt.length; x++) {
-				if(string.charAt(i) == eightPt[x]) {
-					score+=8;
+			for (int x = 0; x < fivePt.length; x++) {
+				if (string.charAt(i) == fivePt[x]) {
+					score += 5;
 				}
 			}
-			for(int x=0; x<tenPt.length; x++) {
-				if(string.charAt(i) == tenPt[x]) {
-					score+=10;
+			for (int x = 0; x < eightPt.length; x++) {
+				if (string.charAt(i) == eightPt[x]) {
+					score += 8;
+				}
+			}
+			for (int x = 0; x < tenPt.length; x++) {
+				if (string.charAt(i) == tenPt[x]) {
+					score += 10;
 				}
 			}
 		}
@@ -225,20 +226,19 @@ public class EvaluationService {
 	 */
 	public String cleanPhoneNumber(String string) {
 		StringBuilder sb = new StringBuilder();
-		for(int i =0; i<string.length(); i++) {
+		for (int i = 0; i < string.length(); i++) {
 			if (Character.isDigit(string.charAt(i))) {
 				sb.append(string.charAt(i));
 			}
 		}
-		if(sb.charAt(0) == '+') {
+		if (sb.charAt(0) == '+') {
 			sb.deleteCharAt(0);
 		}
-		if(sb.charAt(0) == '1') {
+		if (sb.charAt(0) == '1') {
 			sb.deleteCharAt(0);
 		}
 		String number = new String(sb);
-		//if(number.length() != 10) {}
-		
+
 		return number;
 	}
 
@@ -333,18 +333,34 @@ public class EvaluationService {
 	 */
 	public String toPigLatin(String string) {
 		String[] arr = string.split(" ");
-		for(int i=0; i<arr.length; i++) {
+		for (int i = 0; i < arr.length; i++) {
 			StringBuilder sb = new StringBuilder(arr[i]);
-			while(sb.charAt(0) != ('a'|'e'|'i'|'o'|'u')) {
+			while (sb.charAt(0) != ('a') && sb.charAt(0) != ('e') && sb.charAt(0) != ('i') && sb.charAt(0) != ('o')
+					&& sb.charAt(0) != ('u')) {
 				char first = sb.charAt(0);
-				sb.deleteCharAt(0);
-				sb.append(first);
+				if (first == 'q') {
+					sb.deleteCharAt(0);
+					sb.deleteCharAt(0);
+					sb.append('q');
+					sb.append('u');
+				} else {
+					sb.deleteCharAt(0);
+					sb.append(first);
+					// System.out.println(sb);
+				}
 			}
-			sb.append('a'+'y');
+			sb.append('a');
+			sb.append('y');
 			arr[i] = new String(sb);
 		}
-		
-		return null;
+		StringBuilder sbpig = new StringBuilder();
+		sbpig.append(arr[0]);
+		for (int i = 1; i < arr.length; i++) {
+			sbpig.append(" ");
+			sbpig.append(arr[i]);
+		}
+		String pig = new String(sbpig);
+		return pig;
 	}
 
 	/**
@@ -363,8 +379,16 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isArmstrongNumber(int input) {
-		// TODO Write an implementation for this method declaration
-		return false;
+		boolean arm = false;
+		String str = String.valueOf(input);
+		int count = 0;
+		for (int i = 0; i < str.length(); i++) {
+			count += Math.pow(Character.getNumericValue(str.charAt(i)), str.length());
+		}
+		if (count == input) {
+			arm = true;
+		}
+		return arm;
 	}
 
 	/**
@@ -378,7 +402,7 @@ public class EvaluationService {
 	 * @return
 	 */
 	public List<Long> calculatePrimeFactorsOf(long l) {
-		// TODO Write an implementation for this method declaration
+
 		return null;
 	}
 
@@ -512,8 +536,46 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isValidIsbn(String string) {
-		// TODO Write an implementation for this method declaration
-		return false;
+		boolean valid = false;
+		StringBuilder sb = new StringBuilder(string);
+		while (sb.indexOf("-") != -1) {
+			sb.delete(sb.indexOf("-"), sb.indexOf("-") + 1);
+		}
+		// System.out.println(sb);
+		string = new String(sb);
+		int total = 0;
+		for (int i = 0; i < string.length(); i++) {
+			if (sb.length() != 10) {
+				valid = false;
+			} else if (sb.charAt(9) == 'X') {
+				int c = 2;
+				total += 10;
+				for (int x = 9; x > 0; x--) {
+					char num = string.charAt(x - 1);
+
+					if (Character.getNumericValue(num) < 10) {
+						total += (Character.getNumericValue(num) * (c));
+					}
+					c++;
+				}
+			} else {
+				int c = 1;
+				for (int y = 10; y > 0; y--) {
+					char num = string.charAt(y - 1);
+					if (Character.getNumericValue(num) < 10) {
+						total += ((Character.getNumericValue(num) * (c)));
+					}
+					c++;
+					// System.out.println(c);
+				}
+			}
+		}
+		// System.out.println(total);
+		if (total % 11 == 0) {
+			valid = true;
+		}
+		return valid;
+
 	}
 
 	/**
@@ -602,8 +664,39 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isLuhnValid(String string) {
-		// TODO Write an implementation for this method declaration
-		return false;
+		//return value and stringbuilder
+		StringBuilder sb = new StringBuilder();
+		boolean luhn = false;
+		//populate sb with only numbers
+		for (int i = 0; i < string.length(); i++) {
+			if (Character.isDigit(string.charAt(i))) {
+				sb.append(string.charAt(i));
+			}
+		}
+		//multiplication of second value and length check.
+		if (sb.length() <2) {
+			luhn = false;
+		}else {
+			for (int i = 0; i<sb.length(); i++) {
+				i++;
+				int x = Character.getNumericValue(sb.charAt(i));
+				x *= 2;
+				if (x>9) {
+					x-=9;
+				}
+				sb.setCharAt(i, (char)x);
+			}
+			//get a total and see if divisible by 10
+			int total = 0;
+			for (int i = 0; i<sb.length(); i++) {
+				total += Character.getNumericValue(sb.charAt(i));
+			}
+			if (total%10 == 0) {
+				luhn = true;
+			}else {luhn = false;}
+		}
+		//return statement
+		return luhn;
 	}
 
 	/**
@@ -634,7 +727,21 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int solveWordProblem(String string) {
-		// TODO Write an implementation for this method declaration
+		//get numbers
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < string.length(); i++) {
+			if (Character.isDigit(string.charAt(i))) {
+				sb.append(string.charAt(i));
+			}
+		}
+		
+		String[] words = string.split(" ");
+		
+		
+		//Switch (opperation){
+			
+		//}
+		
 		return 0;
 	}
 
