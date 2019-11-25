@@ -664,38 +664,54 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isLuhnValid(String string) {
-		//return value and stringbuilder
+		// return value and stringbuilder
 		StringBuilder sb = new StringBuilder();
 		boolean luhn = false;
-		//populate sb with only numbers
+		// populate sb with only numbers
 		for (int i = 0; i < string.length(); i++) {
 			if (Character.isDigit(string.charAt(i))) {
 				sb.append(string.charAt(i));
 			}
 		}
-		//multiplication of second value and length check.
-		if (sb.length() <2) {
+		// multiplication of second value and length check.
+		if (sb.length() < 2) {
 			luhn = false;
-		}else {
-			for (int i = 0; i<sb.length(); i++) {
+		} else {
+			for (int i = 0; i < (sb.length()-1); i++) {
 				i++;
 				int x = Character.getNumericValue(sb.charAt(i));
+				System.out.println(x);
 				x *= 2;
-				if (x>9) {
-					x-=9;
+				if (x > 9) {
+					x -= 9;
 				}
-				sb.setCharAt(i, (char)x);
+				//System.out.println((char)(x+48)); +48 do to ASCII.
+				sb.setCharAt(i, (char)(x+48));
 			}
-			//get a total and see if divisible by 10
+			// get a total and see if divisible by 10
 			int total = 0;
-			for (int i = 0; i<sb.length(); i++) {
+			//System.out.println(sb);
+			for (int i = 0; i < sb.length(); i++) {
 				total += Character.getNumericValue(sb.charAt(i));
 			}
-			if (total%10 == 0) {
+			if (total % 10 == 0) {
 				luhn = true;
-			}else {luhn = false;}
+			} else {
+				luhn = false;
+			}
+			//System.out.println(total);
 		}
-		//return statement
+		
+		//check for illegal characters
+		String[] sa = string.split(" ");
+		for (int i=0; i<sa.length; i++) {
+			for(int x=0; x<sa[i].length(); x++) {
+				if(Character.getNumericValue(sa[i].charAt(x)) > 9||Character.getNumericValue(sa[i].charAt(x)) <0) {
+					luhn = false;
+				}
+			}
+		}
+		// return statement
 		return luhn;
 	}
 
@@ -727,22 +743,81 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int solveWordProblem(String string) {
-		//get numbers
+		//split to get individual words declare variables
+		
+		String[] words = string.split(" ");
+		int first;
+		int second;
+		int ans = 0;
+		
+		//parse to ints
 		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < string.length(); i++) {
-			if (Character.isDigit(string.charAt(i))) {
-				sb.append(string.charAt(i));
+		for (int i = 0; i < words[2].length(); i++) {
+			if (Character.isDigit(words[2].charAt(i))) {
+				sb.append(words[2].charAt(i));
+			}
+		}
+		String parse = new String(sb);
+		first = Integer.parseInt(parse);
+		sb.setLength(0);
+		
+		if (words.length == 5) {
+			for (int i = 0; i < words[4].length(); i++) {
+				if (Character.isDigit(words[4].charAt(i))) {
+					sb.append(words[4].charAt(i));
+				}
+			}
+		}else {
+			for (int i = 0; i < words[5].length(); i++) {
+				if (Character.isDigit(words[5].charAt(i))) {
+					sb.append(words[5].charAt(i));
+				}
+			}
+		}
+		parse = new String(sb);
+		second = Integer.parseInt(parse);
+		
+		
+		//make sure negative numbers are negative
+		
+		if(words.length == 5) {
+			if (words[2].charAt(0)=='-') {
+				first *= -1;
+			}
+			if (words[4].charAt(0)=='-') {
+				second *= -1;
+			}
+		}else {
+			if (words[2].charAt(0)=='-') {
+				first *= -1;
+			}
+			if (words[5].charAt(0)=='-') {
+				second *= -1;
 			}
 		}
 		
-		String[] words = string.split(" ");
 		
-		
-		//Switch (opperation){
+	
+		//do the math
+		switch(words[3]) {
+			case "plus":
+				ans = (first + second);
+				break;
+			case "minus":
+				ans = (first - second);
+				break;
+			case "multiplied":
+				ans = (first * second);
+				break;
+			case "divided":
+				ans = (first/second);
+				break;
+			default:
+				break;
+		}
 			
-		//}
 		
-		return 0;
+		return ans;
 	}
 
 }
