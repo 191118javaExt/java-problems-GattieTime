@@ -530,8 +530,23 @@ public class EvaluationService {
 		 * @return
 		 */
 		public static String encode(String string) {
-			// TODO Write an implementation for this method declaration
-			return null;
+			string = string.toLowerCase();
+			String alph = "abcdefghijklmnopqrstuvwxyz";
+			String cipher = "zyxwvutsrqponmlkjihgfedcba";
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; i<string.length(); i++) {
+				int ch = alph.indexOf(string.charAt(i));
+				if (ch != -1) {
+					sb.append(cipher.charAt(ch));
+				}else if(Character.isDigit(string.charAt(i))) {
+					sb.append(string.charAt(i));
+				}
+			}
+			for (int i=5; i<sb.length(); i+=6) {
+				sb.insert(i, " ");
+			}
+			String enc = new String(sb);
+			return enc;
 		}
 
 		/**
