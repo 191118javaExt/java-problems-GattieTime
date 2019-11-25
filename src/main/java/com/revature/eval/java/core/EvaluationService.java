@@ -441,8 +441,29 @@ public class EvaluationService {
 		}
 
 		public String rotate(String string) {
-			// TODO Write an implementation for this method declaration
-			return null;
+			StringBuilder sb = new StringBuilder();
+			
+			for(int i = 0; i<string.length(); i++) {
+				char old = string.charAt(i);
+				int oldnum = old; 
+				if ((oldnum>=65 && oldnum<=90)) {
+					oldnum += key;
+					if(oldnum>90) {
+						oldnum -= 26;
+					}
+					old = (char)oldnum;
+				}else if(oldnum>=97 && oldnum<=122) {
+					oldnum += key;
+					if(oldnum>122) {
+						oldnum -= 26;
+					}
+					old = (char)oldnum;
+				}
+				sb.append(old);
+				
+			}
+			String rot = new String(sb);
+			return rot;
 		}
 
 	}
@@ -592,8 +613,20 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isPangram(String string) {
-		// TODO Write an implementation for this method declaration
-		return false;
+		boolean pangram = false;
+		StringBuilder ab = new StringBuilder("abcdefghijklmnopqrstuvwxyz");
+		string = string.toLowerCase();
+		for (int i =0; i<string.length(); i++) {
+			for(int x=0; x<ab.length(); x++) {
+				if (string.charAt(i) == ab.charAt(x)) {
+					ab.deleteCharAt(x);
+				}
+			}
+		}
+		if (ab.length()==0) {
+			pangram = true;
+		}else {pangram = false;}
+		return pangram;
 	}
 
 	/**
