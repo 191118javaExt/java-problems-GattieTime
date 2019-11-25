@@ -1,6 +1,7 @@
 package com.revature.eval.java.core;
 
 import java.time.temporal.Temporal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -481,8 +482,19 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int calculateNthPrime(int i) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+		List<Integer> primes = new ArrayList<Integer>();
+		for ( int x = 2; primes.size()<i; x++) {
+			int count = 0;
+			for(int y = 2; y<x; y++ ) {
+				if (x%y == 0) {
+					count++;
+				}
+			}
+			if (count == 0) {
+				primes.add(x);
+			}
+		}
+		return primes.get(i-1);
 	}
 
 	/**
