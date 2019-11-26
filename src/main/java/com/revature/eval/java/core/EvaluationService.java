@@ -739,14 +739,18 @@ public class EvaluationService {
 		int total = 0;
 		for (int x = 0; x < set.length; x++) {
 			int base = set[x];
-			for (int y = 1; base < i; y++) {
-				hs.add(base);
+			for (int y = 1; base < (i-set[x]); y++) {
+				base = set[x];
 				base *= y;
+				hs.add(base);
+				//System.out.println(base);
 			}
 		}
 		for (Integer z : hs) {
 			total += z;
+			//System.out.println(total);
 		}
+//		System.out.println(total);
 		return total;
 	}
 
