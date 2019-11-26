@@ -403,8 +403,22 @@ public class EvaluationService {
 	 * @return
 	 */
 	public List<Long> calculatePrimeFactorsOf(long l) {
-
-		return null;
+		List<Long> primes = new ArrayList<Long>();
+		while (l%2==0) {
+			primes.add(2L);
+			l /=2;
+		}
+		
+		for (long i=3; i<=Math.sqrt(l); i+=2l ) {
+			while (l%i==0) {
+				primes.add(i);
+				l /= i;
+			}
+		}
+		if (l>2) {
+			primes.add(l);
+		}
+		return primes;
 	}
 
 	/**
@@ -556,8 +570,21 @@ public class EvaluationService {
 		 * @return
 		 */
 		public static String decode(String string) {
-			// TODO Write an implementation for this method declaration
-			return null;
+			StringBuilder sb = new StringBuilder();
+			String alph = "abcdefghijklmnopqrstuvwxyz";
+			String cipher = "zyxwvutsrqponmlkjihgfedcba";
+			for(int i =0; i<string.length(); i++ ) {
+				if(Character.isWhitespace(string.charAt(i)) == false) {
+					int ch = cipher.indexOf(string.charAt(i));
+					if (ch != -1) {
+						sb.append(alph.charAt(ch));
+					}else if(Character.isDigit(string.charAt(i))) {
+						sb.append(string.charAt(i));
+					}
+				}
+			}
+			String dec = new String(sb);
+			return dec;
 		}
 	}
 
