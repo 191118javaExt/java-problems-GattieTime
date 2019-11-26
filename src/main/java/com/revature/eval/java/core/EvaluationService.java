@@ -735,8 +735,19 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int getSumOfMultiples(int i, int[] set) {
-		
-		return 0;
+		HashSet<Integer> hs = new HashSet<Integer>();
+		int total = 0;
+		for (int x = 0; x < set.length; x++) {
+			int base = set[x];
+			for (int y = 1; base < i; y++) {
+				hs.add(base);
+				base *= y;
+			}
+		}
+		for (Integer z : hs) {
+			total += z;
+		}
+		return total;
 	}
 
 	/**
