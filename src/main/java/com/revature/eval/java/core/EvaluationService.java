@@ -3,8 +3,11 @@ package com.revature.eval.java.core;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class EvaluationService {
 
@@ -253,8 +256,28 @@ public class EvaluationService {
 	 * @return
 	 */
 	public Map<String, Integer> wordCount(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		String[] arr;
+		if (string.contains("\n")) {
+			arr = string.split(",\\n");
+			System.out.println(arr[1]);
+		} else if (string.contains(",")) {
+			arr = string.split(",");
+			System.out.println(arr[2]);
+		} else {
+			arr = string.split(" ");
+		}
+		Map<String, Integer> hm = new HashMap<String, Integer>();
+
+		for (int i = 0; i < arr.length; i++) {
+			Integer count = hm.get(arr[i]);
+			if (count == null) {
+				hm.put(arr[i], 1);
+			} else {
+				hm.put(arr[i], ++count);
+			}
+		}
+
+		return hm;
 	}
 
 	/**
@@ -404,18 +427,18 @@ public class EvaluationService {
 	 */
 	public List<Long> calculatePrimeFactorsOf(long l) {
 		List<Long> primes = new ArrayList<Long>();
-		while (l%2==0) {
+		while (l % 2 == 0) {
 			primes.add(2L);
-			l /=2;
+			l /= 2;
 		}
-		
-		for (long i=3; i<=Math.sqrt(l); i+=2l ) {
-			while (l%i==0) {
+
+		for (long i = 3; i <= Math.sqrt(l); i += 2l) {
+			while (l % i == 0) {
 				primes.add(i);
 				l /= i;
 			}
 		}
-		if (l>2) {
+		if (l > 2) {
 			primes.add(l);
 		}
 		return primes;
@@ -457,25 +480,25 @@ public class EvaluationService {
 
 		public String rotate(String string) {
 			StringBuilder sb = new StringBuilder();
-			
-			for(int i = 0; i<string.length(); i++) {
+
+			for (int i = 0; i < string.length(); i++) {
 				char old = string.charAt(i);
-				int oldnum = old; 
-				if ((oldnum>=65 && oldnum<=90)) {
+				int oldnum = old;
+				if ((oldnum >= 65 && oldnum <= 90)) {
 					oldnum += key;
-					if(oldnum>90) {
+					if (oldnum > 90) {
 						oldnum -= 26;
 					}
-					old = (char)oldnum;
-				}else if(oldnum>=97 && oldnum<=122) {
+					old = (char) oldnum;
+				} else if (oldnum >= 97 && oldnum <= 122) {
 					oldnum += key;
-					if(oldnum>122) {
+					if (oldnum > 122) {
 						oldnum -= 26;
 					}
-					old = (char)oldnum;
+					old = (char) oldnum;
 				}
 				sb.append(old);
-				
+
 			}
 			String rot = new String(sb);
 			return rot;
@@ -497,10 +520,10 @@ public class EvaluationService {
 	 */
 	public int calculateNthPrime(int i) {
 		List<Integer> primes = new ArrayList<Integer>();
-		for ( int x = 2; primes.size()<i; x++) {
+		for (int x = 2; primes.size() < i; x++) {
 			int count = 0;
-			for(int y = 2; y<x; y++ ) {
-				if (x%y == 0) {
+			for (int y = 2; y < x; y++) {
+				if (x % y == 0) {
 					count++;
 				}
 			}
@@ -508,7 +531,7 @@ public class EvaluationService {
 				primes.add(x);
 			}
 		}
-		return primes.get(i-1);
+		return primes.get(i - 1);
 	}
 
 	/**
@@ -548,15 +571,15 @@ public class EvaluationService {
 			String alph = "abcdefghijklmnopqrstuvwxyz";
 			String cipher = "zyxwvutsrqponmlkjihgfedcba";
 			StringBuilder sb = new StringBuilder();
-			for (int i = 0; i<string.length(); i++) {
+			for (int i = 0; i < string.length(); i++) {
 				int ch = alph.indexOf(string.charAt(i));
 				if (ch != -1) {
 					sb.append(cipher.charAt(ch));
-				}else if(Character.isDigit(string.charAt(i))) {
+				} else if (Character.isDigit(string.charAt(i))) {
 					sb.append(string.charAt(i));
 				}
 			}
-			for (int i=5; i<sb.length(); i+=6) {
+			for (int i = 5; i < sb.length(); i += 6) {
 				sb.insert(i, " ");
 			}
 			String enc = new String(sb);
@@ -573,12 +596,12 @@ public class EvaluationService {
 			StringBuilder sb = new StringBuilder();
 			String alph = "abcdefghijklmnopqrstuvwxyz";
 			String cipher = "zyxwvutsrqponmlkjihgfedcba";
-			for(int i =0; i<string.length(); i++ ) {
-				if(Character.isWhitespace(string.charAt(i)) == false) {
+			for (int i = 0; i < string.length(); i++) {
+				if (Character.isWhitespace(string.charAt(i)) == false) {
 					int ch = cipher.indexOf(string.charAt(i));
 					if (ch != -1) {
 						sb.append(alph.charAt(ch));
-					}else if(Character.isDigit(string.charAt(i))) {
+					} else if (Character.isDigit(string.charAt(i))) {
 						sb.append(string.charAt(i));
 					}
 				}
@@ -670,16 +693,18 @@ public class EvaluationService {
 		boolean pangram = false;
 		StringBuilder ab = new StringBuilder("abcdefghijklmnopqrstuvwxyz");
 		string = string.toLowerCase();
-		for (int i =0; i<string.length(); i++) {
-			for(int x=0; x<ab.length(); x++) {
+		for (int i = 0; i < string.length(); i++) {
+			for (int x = 0; x < ab.length(); x++) {
 				if (string.charAt(i) == ab.charAt(x)) {
 					ab.deleteCharAt(x);
 				}
 			}
 		}
-		if (ab.length()==0) {
+		if (ab.length() == 0) {
 			pangram = true;
-		}else {pangram = false;}
+		} else {
+			pangram = false;
+		}
 		return pangram;
 	}
 
@@ -710,7 +735,7 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int getSumOfMultiples(int i, int[] set) {
-		// TODO Write an implementation for this method declaration
+		
 		return 0;
 	}
 
@@ -764,7 +789,7 @@ public class EvaluationService {
 		if (sb.length() < 2) {
 			luhn = false;
 		} else {
-			for (int i = 0; i < (sb.length()-1); i++) {
+			for (int i = 0; i < (sb.length() - 1); i++) {
 				i++;
 				int x = Character.getNumericValue(sb.charAt(i));
 				System.out.println(x);
@@ -772,12 +797,12 @@ public class EvaluationService {
 				if (x > 9) {
 					x -= 9;
 				}
-				//System.out.println((char)(x+48)); +48 do to ASCII.
-				sb.setCharAt(i, (char)(x+48));
+				// System.out.println((char)(x+48)); +48 do to ASCII.
+				sb.setCharAt(i, (char) (x + 48));
 			}
 			// get a total and see if divisible by 10
 			int total = 0;
-			//System.out.println(sb);
+			// System.out.println(sb);
 			for (int i = 0; i < sb.length(); i++) {
 				total += Character.getNumericValue(sb.charAt(i));
 			}
@@ -786,14 +811,14 @@ public class EvaluationService {
 			} else {
 				luhn = false;
 			}
-			//System.out.println(total);
+			// System.out.println(total);
 		}
-		
-		//check for illegal characters
+
+		// check for illegal characters
 		String[] sa = string.split(" ");
-		for (int i=0; i<sa.length; i++) {
-			for(int x=0; x<sa[i].length(); x++) {
-				if(Character.getNumericValue(sa[i].charAt(x)) > 9||Character.getNumericValue(sa[i].charAt(x)) <0) {
+		for (int i = 0; i < sa.length; i++) {
+			for (int x = 0; x < sa[i].length(); x++) {
+				if (Character.getNumericValue(sa[i].charAt(x)) > 9 || Character.getNumericValue(sa[i].charAt(x)) < 0) {
 					luhn = false;
 				}
 			}
@@ -830,14 +855,14 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int solveWordProblem(String string) {
-		//split to get individual words declare variables
-		
+		// split to get individual words declare variables
+
 		String[] words = string.split(" ");
 		int first;
 		int second;
 		int ans = 0;
-		
-		//parse to ints
+
+		// parse to ints
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < words[2].length(); i++) {
 			if (Character.isDigit(words[2].charAt(i))) {
@@ -847,14 +872,14 @@ public class EvaluationService {
 		String parse = new String(sb);
 		first = Integer.parseInt(parse);
 		sb.setLength(0);
-		
+
 		if (words.length == 5) {
 			for (int i = 0; i < words[4].length(); i++) {
 				if (Character.isDigit(words[4].charAt(i))) {
 					sb.append(words[4].charAt(i));
 				}
 			}
-		}else {
+		} else {
 			for (int i = 0; i < words[5].length(); i++) {
 				if (Character.isDigit(words[5].charAt(i))) {
 					sb.append(words[5].charAt(i));
@@ -863,47 +888,43 @@ public class EvaluationService {
 		}
 		parse = new String(sb);
 		second = Integer.parseInt(parse);
-		
-		
-		//make sure negative numbers are negative
-		
-		if(words.length == 5) {
-			if (words[2].charAt(0)=='-') {
+
+		// make sure negative numbers are negative
+
+		if (words.length == 5) {
+			if (words[2].charAt(0) == '-') {
 				first *= -1;
 			}
-			if (words[4].charAt(0)=='-') {
+			if (words[4].charAt(0) == '-') {
 				second *= -1;
 			}
-		}else {
-			if (words[2].charAt(0)=='-') {
+		} else {
+			if (words[2].charAt(0) == '-') {
 				first *= -1;
 			}
-			if (words[5].charAt(0)=='-') {
+			if (words[5].charAt(0) == '-') {
 				second *= -1;
 			}
 		}
-		
-		
-	
-		//do the math
-		switch(words[3]) {
-			case "plus":
-				ans = (first + second);
-				break;
-			case "minus":
-				ans = (first - second);
-				break;
-			case "multiplied":
-				ans = (first * second);
-				break;
-			case "divided":
-				ans = (first/second);
-				break;
-			default:
-				break;
+
+		// do the math
+		switch (words[3]) {
+		case "plus":
+			ans = (first + second);
+			break;
+		case "minus":
+			ans = (first - second);
+			break;
+		case "multiplied":
+			ans = (first * second);
+			break;
+		case "divided":
+			ans = (first / second);
+			break;
+		default:
+			break;
 		}
-			
-		
+
 		return ans;
 	}
 
