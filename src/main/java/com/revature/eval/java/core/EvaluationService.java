@@ -326,7 +326,16 @@ public class EvaluationService {
 		private List<T> sortedList;
 
 		public int indexOf(T t) {
-			// TODO Write an implementation for this method declaration
+			int count = 0;
+			int index = 0;
+			if (sortedList.size()/2 ==0) {
+				if (t==sortedList.get((sortedList.size())/2)){
+					index = ((sortedList.size())/2);
+				}else if(((int) t)<((int) sortedList.get((sortedList.size())/2))) {
+					;
+				}
+				
+			}
 			return 0;
 		}
 
@@ -820,7 +829,7 @@ public class EvaluationService {
 			for (int i = 0; i < (sb.length() - 1); i++) {
 				i++;
 				int x = Character.getNumericValue(sb.charAt(i));
-				System.out.println(x);
+				//System.out.println(x);
 				x *= 2;
 				if (x > 9) {
 					x -= 9;
