@@ -1,5 +1,8 @@
 package com.revature.eval.java.core;
 
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -242,6 +245,10 @@ public class EvaluationService {
 			sb.deleteCharAt(0);
 		}
 		String number = new String(sb);
+		
+		if (number.length() != 10) {
+			throw new IllegalArgumentException();
+			}
 
 		return number;
 	}
@@ -259,10 +266,10 @@ public class EvaluationService {
 		String[] arr;
 		if (string.contains("\n")) {
 			arr = string.split(",\\n");
-			System.out.println(arr[1]);
+			// System.out.println(arr[1]);
 		} else if (string.contains(",")) {
 			arr = string.split(",");
-			System.out.println(arr[2]);
+			// System.out.println(arr[2]);
 		} else {
 			arr = string.split(" ");
 		}
@@ -519,6 +526,7 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int calculateNthPrime(int i) {
+		if (i < 1) {throw new IllegalArgumentException();}
 		List<Integer> primes = new ArrayList<Integer>();
 		for (int x = 2; primes.size() < i; x++) {
 			int count = 0;
@@ -531,6 +539,7 @@ public class EvaluationService {
 				primes.add(x);
 			}
 		}
+		
 		return primes.get(i - 1);
 	}
 
@@ -717,8 +726,12 @@ public class EvaluationService {
 	 * @return
 	 */
 	public Temporal getGigasecondDate(Temporal given) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		if (given instanceof LocalDate) {
+			given = ((LocalDate) given).atStartOfDay();
+		}
+		given = ((LocalDateTime) given).plusSeconds(1000000000L);
+		return given;
+
 	}
 
 	/**
@@ -739,16 +752,16 @@ public class EvaluationService {
 		int total = 0;
 		for (int x = 0; x < set.length; x++) {
 			int base = set[x];
-			for (int y = 1; base < (i-set[x]); y++) {
+			for (int y = 1; base < (i - set[x]); y++) {
 				base = set[x];
 				base *= y;
 				hs.add(base);
-				//System.out.println(base);
+				// System.out.println(base);
 			}
 		}
 		for (Integer z : hs) {
 			total += z;
-			//System.out.println(total);
+			// System.out.println(total);
 		}
 //		System.out.println(total);
 		return total;
