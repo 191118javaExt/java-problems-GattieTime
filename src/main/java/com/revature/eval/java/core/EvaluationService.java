@@ -22,13 +22,10 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String reverse(String string) {
-		char[] temp = new char[string.length()];
 		char[] rev = new char[string.length()];
 		int count = 0;
-		for (int i = 0; i < string.length(); i++)
-			temp[i] = string.charAt(i);
 		for (int i = (string.length() - 1); i > -1; i--) {
-			rev[count] = temp[i];
+			rev[count] = string.charAt(i);
 			count++;
 		}
 		String reverse = new String(rev);
@@ -245,10 +242,10 @@ public class EvaluationService {
 			sb.deleteCharAt(0);
 		}
 		String number = new String(sb);
-		
+
 		if (number.length() != 10) {
 			throw new IllegalArgumentException();
-			}
+		}
 
 		return number;
 	}
@@ -325,18 +322,23 @@ public class EvaluationService {
 	static class BinarySearch<T> {
 		private List<T> sortedList;
 
+		int count = 0;
+		int index = 0;
 		public int indexOf(T t) {
-			int count = 0;
-			int index = 0;
-			if (sortedList.size()/2 ==0) {
-				if (t==sortedList.get((sortedList.size())/2)){
-					index = ((sortedList.size())/2);
-				}else if(((int) t)<((int) sortedList.get((sortedList.size())/2))) {
-					;
-				}
-				
+			if (((int) t) == ((int) sortedList.get((sortedList.size()) / 2))) {
+				index = ((sortedList.size()) / 2);
+				index += count;
+			} else if (((int) t) < ((int) sortedList.get((sortedList.size()) / 2))) {
+				sortedList = sortedList.subList(0, ((sortedList.size()) / 2));
+				indexOf(t); 
+			}else {
+				count +=  (sortedList.size() / 2)+1;
+				sortedList = sortedList.subList((sortedList.size() / 2)+1, (sortedList.size()));
+				//System.out.println(count);
+				indexOf(t);
 			}
-			return 0;
+			//System.out.println(index);
+			return index;
 		}
 
 		public BinarySearch(List<T> sortedList) {
@@ -353,6 +355,7 @@ public class EvaluationService {
 		}
 
 	}
+
 
 	/**
 	 * 8. Implement a program that translates from English to Pig Latin.
@@ -523,7 +526,7 @@ public class EvaluationService {
 	}
 
 	/**
-	 * 12. Given a number n, determine what the nth prime is.
+	 * 12. Given a number n,  determine what the nth prime is.
 	 * 
 	 * By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see
 	 * that the 6th prime is 13.
@@ -535,7 +538,9 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int calculateNthPrime(int i) {
-		if (i < 1) {throw new IllegalArgumentException();}
+		if (i < 1) {
+			throw new IllegalArgumentException();
+		}
 		List<Integer> primes = new ArrayList<Integer>();
 		for (int x = 2; primes.size() < i; x++) {
 			int count = 0;
@@ -548,7 +553,7 @@ public class EvaluationService {
 				primes.add(x);
 			}
 		}
-		
+
 		return primes.get(i - 1);
 	}
 
@@ -829,7 +834,6 @@ public class EvaluationService {
 			for (int i = 0; i < (sb.length() - 1); i++) {
 				i++;
 				int x = Character.getNumericValue(sb.charAt(i));
-				//System.out.println(x);
 				x *= 2;
 				if (x > 9) {
 					x -= 9;
